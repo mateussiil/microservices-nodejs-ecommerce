@@ -1,34 +1,14 @@
 import { Kafka, ProducerConfig } from 'kafkajs';
+import express from 'express';
 
-const kafka = new Kafka({
-  clientId: 'producer1',
-  brokers: ['localhost:9092'],
-  requestTimeout:500
-});
+import routes from './routes';
 
-const MyPartitioner = () => {
-  return () => {
-    return 0
-  }
-}
+const app = express();
 
-const run  = async () =>{
-  const producerConfig: ProducerConfig = {
-    createPartitioner: MyPartitioner
-  }
+app.use(express.json());
 
-  const producer = kafka.producer(producerConfig)
+app.use('/users', routes);
 
-  await producer.connect()
-
-  setInterval(async () => {
-    await producer.send({
-      topic: 'sales-topic',
-      messages: [
-        { value: 'Hello KafkaJS user!' },
-      ],
-    })
-  }, 3000);
-}
-
-run()
+app.listen(3000, () => {
+  console.log('Server listening on port 3000')
+})
