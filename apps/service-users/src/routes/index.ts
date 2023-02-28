@@ -1,4 +1,5 @@
 
+import { prisma } from '../utils';
 import { Router } from 'express';
 import { Kafka } from 'kafkajs';
 
@@ -9,11 +10,6 @@ const kafka = new Kafka({
   brokers: ['localhost:9092']
 })
 
-const MyPartitioner = () => {
-  return ({ ...args }) => {
-    return 0
-  }
-}
 const producer = kafka.producer()
 
 router.get('/', (req, res) => {

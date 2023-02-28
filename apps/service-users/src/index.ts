@@ -1,4 +1,3 @@
-import { Kafka, ProducerConfig } from 'kafkajs';
 import express from 'express';
 
 import routes from './routes';
