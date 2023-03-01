@@ -81,6 +81,11 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/log@^6.3.0":
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/@types/log/-/log-6.3.0.tgz#14e8bad1ecde5df5788e95f25ca570aed8a9d476"
+  integrity sha512-xasLdDVZqywCAYZKnZpbyz5Z2ZX7duGp44KsCOh7+vyhdw4zhaI67DKSCrgCBmlv6dT+Zg9rNPek8TXQnabdfA==
+
 "@types/mime@*":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-3.0.1.tgz#5f8f2bca0a5863cb69bc0b0acd88c96cb1d4ae10"

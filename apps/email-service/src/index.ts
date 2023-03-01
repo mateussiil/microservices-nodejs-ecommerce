@@ -1,5 +1,6 @@
 import { Kafka } from 'kafkajs';
 import { EmailAdapter } from './adapter/email';
+import logger from '../lib/log';
 
 require("dotenv").config();
 
@@ -20,14 +21,22 @@ const connect = async () => {
     eachMessage: async ({ topic, partition, message }) => {
       if (message && message.value && topic === 'user-created') {
         const text = `Welcome to the appName\n`
-        try{
-          const user = JSON.parse(message.value.toString())
+        let user;
 
-          if (user && user.email) {
-            new EmailAdapter().send({ to: user.email, subject: 'Welcome', text })
-          }
+        try{
+          user = JSON.parse(message.value.toString())
         }catch(err){
-          console.log(err);
+          logger.error('Cannot parse message');
+        }
+
+        if (user && user.email) {
+          await new EmailAdapter().send({ to: user.email, subject: 'Welcome', text })
+            .then((value) => {
+              return logger.info(`send mail to ${user.email}`,)
+            })
+            .catch((err) => {
+              return logger.error(`failed to send mail to ${user.email}`)
+            })
         }
       }
     },

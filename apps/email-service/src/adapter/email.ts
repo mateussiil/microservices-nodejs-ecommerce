@@ -2,6 +2,7 @@
 
 import nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
+import Log from 'log';
 
 export type EmailAdapterErrorReturn = { error: string }
 export type EmailAdapterSuccessReturn = { accepted: (string | Mail.Address)[], messageId: string }
@@ -14,7 +15,6 @@ type sendProps = {
   html?: string,
 }
 
-
 export class EmailAdapter {
   private library: 'nodemailer' | 'mailgun-js' | 'sendgrid-nodejs'
 
@@ -25,17 +25,23 @@ export class EmailAdapter {
   async send({ to, subject, text, html }: sendProps) {
     if (this.library === 'nodemailer') {
       const mail: Promise<EmailAdapterReturn> = new Promise<EmailAdapterReturn>(async (resolve, reject) => {
-
+        let transporter;
         try {
-          let transporter = nodemailer.createTransport({
-            service: 'gmail',
+          transporter = nodemailer.createTransport({
+            service: process.env.SERVICE,
             host: process.env.EMAIL_HOST,
             auth: {
               user: process.env.EMAIL_USER, // generated ethereal user
               pass: process.env.EMAIL_PASS, // generated ethereal password
             },
           });
+        }catch (err){
+          Log.error('error in create tranposter', err);
 
+          return reject({ err });
+        }
+
+        try{
           const mailOptions = {
             from: process.env.EMAIL_USER,
             to,
@@ -49,7 +55,6 @@ export class EmailAdapter {
           transporter.sendMail(mailOptions, (err, info) => {
 
             if (err) return reject({ err });
-
             const { accepted, messageId } = info
 
             resolve({ accepted, messageId })
