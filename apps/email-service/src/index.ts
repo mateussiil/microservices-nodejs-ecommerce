@@ -30,12 +30,14 @@ const connect = async () => {
         }
 
         if (user && user.email) {
-          await new EmailAdapter().send({ to: user.email, subject: 'Welcome', text })
+          const { email } = user;
+
+          await new EmailAdapter().send({ to: email, subject: 'Welcome', text })
             .then((value) => {
-              return logger.info(`send mail to ${user.email}`,)
+              return logger.info(`send mail to ${email}`,)
             })
             .catch((err) => {
-              return logger.error(`failed to send mail to ${user.email}`)
+              return logger.error(`failed to send mail to ${email}`)
             })
         }
       }

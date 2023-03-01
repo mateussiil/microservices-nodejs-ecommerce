@@ -2,7 +2,7 @@
 
 import nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
-import Log from 'log';
+import logger from '../../lib/log';
 
 export type EmailAdapterErrorReturn = { error: string }
 export type EmailAdapterSuccessReturn = { accepted: (string | Mail.Address)[], messageId: string }
@@ -36,7 +36,7 @@ export class EmailAdapter {
             },
           });
         }catch (err){
-          Log.error('error in create tranposter', err);
+          logger.error('error in create transporter', err);
 
           return reject({ err });
         }
