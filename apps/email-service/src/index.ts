@@ -5,8 +5,8 @@ import logger from '../lib/log';
 require("dotenv").config();
 
 const kafka = new Kafka({
-  clientId: 'email1',
-  brokers: ['localhost:9092'],
+  clientId: 'email-service',
+  brokers: ['kafka:9092', 'localhost:9092'],
   requestTimeout: 500
 });
 
@@ -46,7 +46,3 @@ const connect = async () => {
 }
 
 connect()
-
-const topics = [
-  { topic: 'sales-topic', partition: 0 }
-]
