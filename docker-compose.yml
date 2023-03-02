@@ -11,7 +11,7 @@ services:
     depends_on:
       - zookeeper
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_CREATE_TOPICS: sales-topic:1:1,user-created:1:1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     ports:
@@ -28,6 +28,34 @@ services:
       - 5666:5432
     volumes:
       - db:/var/lib/postgresql/microservices/
+  users-service:
+    build: ./apps/users-service
+    container_name: kafka-nodejs-example-users-services
+    command: sh -c "dockerize -wait tcp://zookeeper:2181 -wait tcp://kafka:9092 -wait tcp://database:5432 -timeout 15s npm start"
+    depends_on:
+      - zookeeper
+      - kafka
+      - database
+    environment:
+      PGHOST: database
+      PGPORT: 5432
+      PGUSER: ${POSTGRES_USER}
+      PGDATABASE: ${POSTGRES_USER}
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      USER_SERVICE_PORT: ${USER_SERVICE_PORT}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    ports:
+      - ${USER_SERVICE_PORT}:3000
+  email-service:
+    build: ./apps/email-service
+    container_name: kafka-nodejs-example-email-service
+    command: sh -c "dockerize -wait tcp://zookeeper:2181 -wait tcp://kafka:9092 npm start"
+    depends_on:
+      - zookeeper
+      - kafka
+      - database
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
 volumes:
   db:

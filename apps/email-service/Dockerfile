@@ -21,7 +21,3 @@ RUN npm install
 COPY . .
 
 RUN npm run build
-
-# Copy everything in the host folder into the working folder of the container.
-
-EXPOSE 3000
