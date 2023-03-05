@@ -1,5 +1,5 @@
 
-import { stripeRouter } from '@app/src/routes/stripe/webhook';
+import { stripeRouter } from './stripe/webhook';
 import { prisma } from '../utils';
 import { Router } from 'express';
 import { Kafka } from 'kafkajs';
@@ -17,6 +17,13 @@ router.get('/', async (req, res) => {
   const products = await prisma.product.findMany({
     where: {
       active: true
+    },
+    include: {
+      prices:{
+        where:{
+          active: true
+        }
+      }
     }
   })
 

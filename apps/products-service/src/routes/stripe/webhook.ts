@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 import { Router } from 'express';
-import appConfig from '@app/config';
+import appConfig from '../../../config';
 import { prisma, stripe } from '../../utils';
 
 // Stripe requires the raw body to construct the event.
