@@ -29,6 +29,20 @@ services:
       - 5666:5432
     volumes:
       - db:/var/lib/postgresql/microservices/
+  auth-service:
+    build: ./apps/auth-service
+    container_name: kafka-nodejs-example-auth-services
+    command: sh -c "dockerize -wait tcp://zookeeper:2181 -wait tcp://kafka:9092 -wait tcp://database:5432 -timeout 15s npm start"
+    depends_on:
+      - zookeeper
+      - kafka
+      - database
+    environment:
+      DATABASE_URL: postgresql://admin:password@database:5432/microservices
+      AUTH_SERVICE_PORT: ${AUTH_SERVICE_PORT}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    ports:
+      - ${AUTH_SERVICE_PORT}:3000
   users-service:
     build: ./apps/users-service
     container_name: kafka-nodejs-example-users-services
