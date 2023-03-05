@@ -1,11 +1,7 @@
 import express from 'express';
 import cookieSession from 'cookie-session';
 
-import { signupRouter } from './routes/singup';
-import { getUsers } from './routes/getUsers';
-import { signinRouter } from './routes/singin';
 import { currentUser } from './middleware/current-user';
-import { currentUserRouter } from './routes/current-user';
 import { NotFoundError } from './errors/not-found-request';
 import { authRouter } from './routes';
 
