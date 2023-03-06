@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import * as yup from 'yup';
+import { BadRequestError } from '../errors/bad-request';
 
 const validate = (schema: yup.AnyObject) => async (req:Request, res:Response, next:NextFunction) => {
   try {
@@ -10,7 +11,7 @@ const validate = (schema: yup.AnyObject) => async (req:Request, res:Response, ne
     });
     return next();
   } catch (err: any) {
-    return res.status(500).json({ type: err.name, message: err.message });
+    return BadRequestError(res, err.message);
   }
 };
 
