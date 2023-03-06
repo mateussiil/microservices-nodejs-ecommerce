@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Customer {
+  id        String   @id @default(cuid())
+  userId    String   @unique(map: "customers_user_id_unique") @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  @@map("customers")
+}
+
+model Subscription {
+  id                   String             @id @default(cuid())
+  userId               String             @unique(map: "subscriptions_user_id_unique") @map("user_id")
+  priceId              String
+  status               SubscriptionStatus
+  start_date           DateTime?
+  ended_at             DateTime?
+  trial_end            DateTime?
+  trial_start          DateTime?
+  cancel_at            DateTime?
+  cancel_at_period_end Boolean?
+  canceled_at          DateTime?
+  metadata             Json?
+  createdAt            DateTime           @default(now()) @map("created_at")
+  updatedAt            DateTime           @default(now()) @map("updated_at")
+
+  @@map("subscriptions")
+}
+
+enum SubscriptionStatus {
+  active
+  canceled
+  incomplete
+  paused
+  incomplete_expired
+  past_due
+  trialing
+  unpaid
+}

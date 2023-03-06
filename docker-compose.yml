@@ -62,24 +62,6 @@ services:
       STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
     ports:
       - ${PRODUCTS_SERVICE_PORT}:3000
-  users-service:
-    build: ./apps/users-service
-    container_name: kafka-nodejs-example-users-services
-    command: sh -c "dockerize -wait tcp://zookeeper:2181 -wait tcp://kafka:9092 -wait tcp://database:5432 -timeout 15s npm start"
-    depends_on:
-      - zookeeper
-      - kafka
-      - database
-    environment:
-      PGHOST: database
-      PGPORT: 5432
-      PGUSER: ${POSTGRES_USER}
-      PGDATABASE: ${POSTGRES_USER}
-      PGPASSWORD: ${POSTGRES_PASSWORD}
-      USER_SERVICE_PORT: ${USER_SERVICE_PORT}
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-    ports:
-      - ${USER_SERVICE_PORT}:3000
   email-service:
     build: ./apps/email-service
     container_name: kafka-nodejs-example-email-service
