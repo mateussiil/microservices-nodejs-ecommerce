@@ -30,7 +30,7 @@ const relevantEvents = new Set([
 
 const stripeRouter = Router();
 
-stripeRouter.post('/', async (req, res) => {
+stripeRouter.post('/webhook', async (req, res) => {
   const buf = await buffer(req);
   const sig = req.headers['stripe-signature'];
   let event;
