@@ -7,13 +7,14 @@
     "start": "npm run build:ci && node build/src/index.js",
     "dev": "dotenv -e .env.local -- ts-node src/index.ts",
     "build": "tsc",
-    "build:ci": "npm run prisma:generate && npm run prisma:migrate && npm run build",
+    "build:ci": "npm run prisma:generate:prod && npm run prisma:migrate:prod && npm run prisma:seed:prod && npm run build",
     "prisma:generate:prod": "prisma generate",
     "stripe:dev": "stripe listen --forward-to  http://localhost:3000/api/stripe/webhook",
     "prisma:generate": "dotenv -e .env.local -- prisma generate",
     "prisma:migrate": "dotenv -e .env.local -- prisma migrate dev",
     "prisma:migrate:prod": "prisma migrate deploy",
-    "prisma:seed": "dotenv -e .env.local -- prisma db seed"
+    "prisma:seed": "dotenv -e .env.local -- prisma db seed",
+    "prisma:seed:prod": "dotenv -e .env -- prisma db seed"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"

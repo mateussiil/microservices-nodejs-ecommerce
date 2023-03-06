@@ -43,6 +43,25 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     ports:
       - ${AUTH_SERVICE_PORT}:3000
+  products-service:
+    build: ./apps/products-service
+    container_name: kafka-nodejs-example-products-services
+    command: sh -c "dockerize -wait tcp://zookeeper:2181 -wait tcp://kafka:9092 -wait tcp://database:5432 -timeout 15s npm start"
+    depends_on:
+      - zookeeper
+      - kafka
+      - database
+    environment:
+      DATABASE_URL: postgresql://admin:password@database:5432/microservices
+      PRODUCTS_SERVICE_PORT: ${PRODUCTS_SERVICE_PORT}
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      SECRET: ${SECRET}
+      JWT_KEY: ${JWT_KEY}
+      NODE_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${NODE_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET}
+    ports:
+      - ${PRODUCTS_SERVICE_PORT}:3000
   users-service:
     build: ./apps/users-service
     container_name: kafka-nodejs-example-users-services

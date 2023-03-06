@@ -2,12 +2,9 @@ import * as yup from 'yup';
 import { Asserts } from 'yup';
 
 const env = {
-  NEXTAUTH_URL: process.env.NEXTAUTH_URL,
   DATABASE_URL: process.env.DATABASE_URL,
   SECRET: process.env.SECRET,
-
-  SMTP_SERVER: process.env.SMTP_SERVER,
-  SMTP_FROM: process.env.SMTP_FROM,
+  JWT_SECRET: process.env.JWT_SECRET,
 
   NODE_PUBLIC_STRIPE_PUBLISHABLE_KEY:
   process.env.NODE_PUBLIC_STRIPE_PUBLISHABLE_KEY,

@@ -1,11 +1,11 @@
+import config from '../config';
 import { PrismaClient } from '@prisma/client';
 import Stripe from 'stripe';
 
 const prisma = new PrismaClient();
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+const stripe = new Stripe(config.STRIPE_SECRET_KEY!, {
   apiVersion: '2022-11-15',
 });
-
 
 async function main() {
   const products = await stripe.products.list();
