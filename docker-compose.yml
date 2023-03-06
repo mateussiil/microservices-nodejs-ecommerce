@@ -2,12 +2,12 @@ version: "3"
 services:
   zookeeper:
     image: wurstmeister/zookeeper:3.4.6
-    container_name: kafka-nodejs-example-zookeeper
+    container_name: kafka-nodejs-zookeeper
     ports:
       - 2181:2181
   kafka:
     image: wurstmeister/kafka:2.11-1.1.0
-    container_name: kafka-nodejs-example-kafka
+    container_name: kafka-nodejs-kafka
     depends_on:
       - zookeeper
     environment:
@@ -20,7 +20,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
   database:
     image: postgres:12.4
-    container_name: kafka-nodejs-example-database
+    container_name: kafka-nodejs-database
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -31,7 +31,7 @@ services:
       - db:/var/lib/postgresql/microservices/
   auth-service:
     build: ./apps/auth-service
-    container_name: kafka-nodejs-example-auth-services
+    container_name: kafka-nodejs-auth-services
     command: sh -c "dockerize -wait tcp://zookeeper:2181 -wait tcp://kafka:9092 -wait tcp://database:5432 -timeout 15s npm start"
     depends_on:
       - zookeeper
@@ -45,7 +45,7 @@ services:
       - ${AUTH_SERVICE_PORT}:3000
   products-service:
     build: ./apps/products-service
-    container_name: kafka-nodejs-example-products-services
+    container_name: kafka-nodejs-products-services
     command: sh -c "dockerize -wait tcp://zookeeper:2181 -wait tcp://kafka:9092 -wait tcp://database:5432 -timeout 15s npm start"
     depends_on:
       - zookeeper
@@ -64,7 +64,7 @@ services:
       - ${PRODUCTS_SERVICE_PORT}:3000
   email-service:
     build: ./apps/email-service
-    container_name: kafka-nodejs-example-email-service
+    container_name: kafka-nodejs-email-service
     command: sh -c "dockerize -wait tcp://zookeeper:2181 -wait tcp://kafka:9092 npm start"
     depends_on:
       - zookeeper

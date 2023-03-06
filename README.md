@@ -2,9 +2,7 @@
 
 
 <p align="center">  
-  <bold>(WIP)</bold>: This is an enterprise scale advanced microservice pattern with REST API and GRPC Microservices. Want to ask Rex Isaac Raphael questions, join the slack channel
-
-  Want to ask <a target="_blank" href="https://twitter.com/Mateussiil">Rex Isaac Raphael</a> questions, follow me on my the twitter :)
+  <bold>(WIP)</bold>: This is an enterprise scale advanced microservice pattern with REST API and GRPC Microservices. Want to ask <a target="_blank" href="https://twitter.com/Mateussiil">Mateus Oliveira</a> questions, follow me on my the twitter :)
 </p>  
     <p align="center">  
 </p>  
