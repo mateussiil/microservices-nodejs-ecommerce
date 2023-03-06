@@ -76,10 +76,8 @@ yarn build:ci
 ---
 
 ```bash  
-node dist/apps/service-account/main.js  
-node dist/apps/service-notification/main.js  
-node dist/apps/service-billing/main.js  
-node dist/apps/service-project/main.js  
-node dist/apps/service-tenant/main.js  
-node dist/apps/service-access/main.js  
+node apps/auth-service/src/index.js  
+node apps/email-service/src/index.js  
+node apps/billing-service/src/index.js  
+node apps/products-service/src/index.js  
 ```  
