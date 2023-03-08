@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import {  useCallback, useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import { useAuth } from '../provider/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 
@@ -39,67 +39,24 @@ const PriceComponent = () => {
   const [billingInterval, setBillingInterval] =
     useState<PriceInterval>('month');
 
-    useEffect(() => {
-      (async () => {
-        const res = await fetch('http://localhost:3002/products');
+  useEffect(() => {
+    (async () => {
+      const res = await fetch('http://localhost:3002/products');
 
-        const data = await res.json();
+      const data = await res.json();
 
-        if (data.products) {
-          setProducts(data.products);
-        }
+      if (data.products) {
+        setProducts(data.products);
+      }
 
-      })()
-    }, []);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     if (status === 'authenticated') {
-  //       const res = await fetch('/api/user/subscription');
-
-  //       const data = await res.json();
-
-  //       if (data.subscription) {
-  //         setSubscription(data.subscription);
-  //       }
-  //     }
-  //   })();
-  // }, [status]);
+    })()
+  }, []);
 
   const handlePricingClick = async (priceId: string) => { 
-      if (!isAuthenticated) {
-        return navigate('/signin');
-      }
-    };
-
-  // const handlePricingClick = useCallback(
-  //   async (priceId: string) => {
-  //     if (status !== 'authenticated') {
-  //       return router.push('/api/auth/signin');
-  //     }
-
-  //     if (subscription) {
-  //       return router.push('/account');
-  //     }
-
-  //     const res = await fetch('/api/stripe/create-checkout-session', {
-  //       method: 'POST',
-  //       headers: {
-  //         'content-type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         price: priceId,
-  //       }),
-  //     });
-
-  //     const data = await res.json();
-
-  //     const stripe = await getStripe();
-
-  //     stripe?.redirectToCheckout({ sessionId: data.sessionId });
-  //   },
-  //   [status, router, subscription]
-  // );
+    if (!isAuthenticated) {
+      return navigate('/signin');
+    }
+  };
 
   return (
     <>
@@ -233,28 +190,6 @@ const PriceComponent = () => {
                 );
               }) : null
             }
-          </div>
-        </div>
-      </section>
-      <section className="bg-white">
-        <div className="px-4 py-24 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="sm:flex sm:flex-col sm:align-center">
-            <h1 className="text-6xl font-extrabold text-gray-800 sm:text-center">
-              Additional services
-            </h1>
-            <p className="mt-5 text-xl text-gray-500 sm:text-center">
-              You {`don't`} have the necessary resources or knowledge to create models yourself or connect to the API? We can help you make it happen!
-            </p>
-            <br />
-            <div className="mt-5 sm:text-center">
-              <a
-                href="mailto: mateussiil@pdfdesign.tech"
-                style={{ backgroundColor: '#22B7F2' }}
-                className="mr-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Send Email
-              </a>
-            </div>
           </div>
         </div>
       </section>
