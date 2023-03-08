@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import jwt from 'jsonwebtoken';
 import { validate } from '../middleware/validate-request';
 import { BadRequestError } from '../errors/bad-request';
+import { exclude } from '../utils/prisma';
 
 const kafka = new Kafka({
   clientId: 'auth-service',
@@ -51,7 +52,9 @@ router.post('/signin',
 
     req.session = { jwt: userJwt };
 
-    res.status(200).send(existingUser);
+    const userWithoutPassword = exclude(existingUser, ['password'])
+
+    res.status(200).send({ user: userWithoutPassword });
   }
 );
 
